@@ -1,25 +1,30 @@
 function App() {
-  const course = 'Desenvolvimento de aplicação Half Stack - Part1 E4.'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
+  const course = {
+    name: 'Desenvolvimento de aplicação Half Stack - Part1 E5',
+    parts : [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ], 
+    total : () => {
+      return course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
     }
-  ]
+  }
 
   return (
     <>
-      <Header course={course} />
-      <Content content={parts} />
-      <Total total={parts[0].exercises + parts[1].exercises + parts[2].exercises} />
+      <Header course={course.name} />
+      <Content content={course.parts} />
+      <Total total={course.total()} />
     </>
   )
 }
