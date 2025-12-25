@@ -1,46 +1,51 @@
 function App() {
-  const course = 'Desenvolvimento de aplicação Half Stack - Part1 E1 E2'
-  const part1 = 'Fundamentos da biblioteca React'
-  const exercises1 = 10
-  const part2 = 'Usando props para passar dados'
-  const exercises2 = 7
-  const part3 = 'Estado de um componente'
-  const exercises3 = 14
+  const course = 'Desenvolvimento de aplicação Half Stack - Part1 E3.'
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
+
+  const content = [part1, part2, part3];
 
   return (
     <>
-      <Header course={course}/>
-      <Content content={
-        [ {part:part1, exercise:exercises1}, 
-          {part:part2, exercise:exercises2}, 
-          {part:part3, exercise:exercises3}
-        ]
-      } />
-      <Total total={exercises1 + exercises2 + exercises3} />
+      <Header course={course} />
+      <Content content={ content }/>
+      <Total total={part1.exercises + part2.exercises + part3.exercises} />
     </>
   )
 }
 
-function Content(params){
+function Content(params) {
+  // console.log(params);
+  // console.log('done');
   return (
     <>
-      <Part content={params.content[0]}/>
-      <Part content={params.content[1]}/>
-      <Part content={params.content[2]}/>
+      <Part content={params.content[0]} />
+      <Part content={params.content[1]} />
+      <Part content={params.content[2]} />
     </>
   )
 }
 
-function Part(params){
+function Part(params) {
   console.log(params);
   return (
     <>
-      <p>{params.content.part} {params.content.exercises} </p>
+      <p>{params.content.name} {params.content.exercises} </p>
     </>
   )
 }
 
-function Header(params){
+function Header(params) {
   return (
     <>
       <h1>{params.course}</h1>
@@ -50,7 +55,7 @@ function Header(params){
 
 
 
-function Total(params){
+function Total(params) {
   return (
     <>
       <p> Number of exercises: {params.total}</p>
