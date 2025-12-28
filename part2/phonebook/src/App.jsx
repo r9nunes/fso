@@ -9,18 +9,25 @@ const App = () => {
     setNewName(event.target.value);
   }
 
-  function addPerson(person) {
-    if(person != ""){
-      const newPersons = [...persons];
-      newPersons.push({ name: newName })
-      setPersons(newPersons);
+  function addPerson() {
+    const person_exists = persons.some(list_person => list_person.name === newName )
+    if (person_exists) {
+      alert(`${newName} is already added to phonebook`);
+      return false
     }
+    if (newName.trim().length === 0) {
+      return false;
+    }
+    const newPersons = [...persons];
+    newPersons.push({ name: newName })
+    setPersons(newPersons);
   }
-  function clean(){
+
+  function clean() {
     document.getElementById('input#name').value = '';
     setNewName('');
   }
-  
+
   function handleSubmit(event) {
     event.preventDefault();
     addPerson();
