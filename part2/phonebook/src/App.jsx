@@ -2,9 +2,19 @@ import { useState } from 'react';
 import Persons from './Persons';
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', number: '123456' }]);
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
+  const [filterValue, setFilterVaue] = useState('');
+
+  function handleFilter(event) {
+    setFilterVaue(event.target.value)
+  }
 
   function handleNameChange(event) {
     setNewName(event.target.value);
@@ -26,7 +36,9 @@ const App = () => {
       return false;
     }
     const newPersons = [...persons];
-    newPersons.push({ name: newName, number: newNumber })
+    const temp_person = { name: newName, number: newNumber, id:persons.length + 1 }
+    console.log(temp_person)
+    newPersons.push(temp_person)
     setPersons(newPersons);
     return true;
   }
@@ -48,6 +60,10 @@ const App = () => {
     <>
       <div>
         <h2>Phonebook</h2>
+        <div>
+          filter shown with <input id="input#name#filter" onChange={handleFilter} />
+        </div>
+        <h2>Add a new</h2>
         <form onSubmit={handleSubmit}>
           <div>
             name: <input id="input#name" onChange={handleNameChange} />
@@ -60,9 +76,13 @@ const App = () => {
           </div>
         </form>
         <h2>Numbers</h2>
-        <Persons persons={persons} />
+        <Persons persons={persons} filter={filterValue} />
       </div>
-      <div>debug: {newName}</div>
+      <h2>Debub info</h2>
+      <div>
+        name: {newName} <br/>
+        filter: {filterValue}
+      </div>
     </>
   )
 }

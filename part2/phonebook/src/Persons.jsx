@@ -1,11 +1,8 @@
-function Persons({ persons }) {
-    return (<>
-        {persons.map((person, i) => {
-            let id = person.name + i;
-            return <p key={id}> {person.name} - {person.number}</p>;
-        })
-        }
-    </>);
+function Persons({ persons, filter }) {
+    let person_list = [...persons]
+    if (filter != undefined)
+        person_list = person_list.filter((person) => person.name.includes(filter))
+    return (<>{person_list.map((person) => <p key={person.id}> {person.name} - {person.number}</p>)}</>);
 
 }
 
