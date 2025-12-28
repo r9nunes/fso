@@ -2,7 +2,7 @@ function Persons({ persons }) {
     return (<>
         {persons.map((person, i) => {
             let id = person.name + i;
-            return <p key={id}> {person.name}</p>;
+            return <p key={id}> {person.name} - {person.number}</p>;
         })
         }
     </>);
