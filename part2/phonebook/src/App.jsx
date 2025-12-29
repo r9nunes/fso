@@ -1,16 +1,29 @@
-import { useState } from 'react';
-import { Persons, Filter, Debug } from './Persons';
+import { useState, useEffect } from 'react';
+import { PersonForm, Persons, Filter, Debug } from './Components';
+import axios from 'axios';
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFilterVaue] = useState('');
+
+  function handleJsDb() {
+    console.debug('lendo dados - json-db')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(
+        (response) => {
+          console.debug('axios.then')
+          console.debug(response.data);
+          setPersons(response.data)
+        }).catch(
+          (error) => {
+            console.debug('axios.catch', error)
+          })
+  }
+
+  useEffect(handleJsDb, []);
 
   function handleFilter(event) {
     setFilterVaue(event.target.value)
@@ -70,24 +83,6 @@ const App = () => {
 
     </>
   )
-}
-
-function PersonForm({ handleSubmit, handleNameChange, handleNumberChange }) {
-  return (<>
-    <form onSubmit={handleSubmit}>
-      <div>
-        name: <input id="input#name" onChange={handleNameChange} />
-      </div>
-      <div>
-        number: <input id="input#number" onChange={handleNumberChange} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
-
-  </>)
-
 }
 
 export default App
