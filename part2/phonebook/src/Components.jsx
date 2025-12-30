@@ -5,12 +5,13 @@ export function Filter({ handleFilter }) {
     </div>
   )
 }
-export function Debug({ newName, filterValue }) {
+export function Debug({ newName, newNumber, filterValue }) {
   return (
     <>
       <h2>Debub info</h2>
       <div>
         name: {newName} <br />
+        number: {newNumber} <br />
         filter: {filterValue}
       </div>
     </>
@@ -23,7 +24,7 @@ export function Person({ person }) {
 
 export function Persons({ persons, filter }) {
   let person_list = [...persons]
-  console.log(person_list)
+  // console.debug("Person list: ",person_list) //DEBUG
   if (filter != undefined) {
     person_list = person_list.filter((person) => person.name.includes(filter))
   }

@@ -8,7 +8,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFilterVaue] = useState('');
 
-  function handleJsDb() {
+  function doGet() {
     console.debug('lendo dados - json-db')
     axios
       .get('http://localhost:3001/persons')
@@ -23,7 +23,24 @@ const App = () => {
           })
   }
 
-  useEffect(handleJsDb, []);
+  function doPost(newPerson) { //also known as 'add' :-)
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(
+        (response) => {
+          const person = response.data
+          const personsList = [...persons];
+          personsList.push(person);
+          setPersons(personsList);
+          return true;
+        })
+      .catch((error) => {
+        console.debug('[Error]doPost#', error);
+        return false;
+      })
+  }
+
+  useEffect(doGet, []);
 
   function handleFilter(event) {
     setFilterVaue(event.target.value)
@@ -48,11 +65,12 @@ const App = () => {
     if (newNumber.trim().length === 0) {
       return false;
     }
-    const newPersons = [...persons];
-    const temp_person = { name: newName, number: newNumber, id: persons.length + 1 }
-    console.log(temp_person)
-    newPersons.push(temp_person)
-    setPersons(newPersons);
+
+    const temp_person = { name: newName, number: newNumber } //removi id
+    // console.debug(temp_person) //DEBUG
+    doPost(temp_person)
+    // .then( (person) => {     })
+    // .catch((error)=>{ console.debug('[Error]doPost#',error); return false;})
     return true;
   }
 
@@ -79,7 +97,7 @@ const App = () => {
         <h2>Numbers</h2>
         <Persons persons={persons} filter={filterValue} />
       </div>
-      <Debug newName={newName} filterValue={filterValue} />
+      <Debug newName={newName} newNumber={newNumber} filterValue={filterValue} />
 
     </>
   )
