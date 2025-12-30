@@ -17,9 +17,13 @@ export function Debug({ newName, newNumber, filterValue }) {
     </>
   )
 }
+
+const espaco = (n) => " ".repeat(60-n);
+const length = (person) => person.name.length + person.number.length + person.id.length;
+
 export function Person({ person }) {
   return (
-    <div> {person.name} - {person.number} </div>)
+    <div style={{ whiteSpace: "pre" }}> {person.name} - {person.number} {espaco(length(person))} (id:{person.id}) </div>)
 }
 
 export function Persons({ persons, filter }) {

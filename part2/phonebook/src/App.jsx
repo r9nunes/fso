@@ -1,43 +1,17 @@
 import { useState, useEffect } from 'react';
 import { PersonForm, Persons, Filter, Debug } from './Components';
-import axios from 'axios';
+import services from './Services';
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [people, setPeople] = useState([])
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filterValue, setFilterVaue] = useState('');
 
   function doGet() {
-    console.debug('lendo dados - json-db')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(
-        (response) => {
-          console.debug('axios.then')
-          console.debug(response.data);
-          setPersons(response.data)
-        }).catch(
-          (error) => {
-            console.debug('axios.catch', error)
-          })
-  }
-
-  function doPost(newPerson) { //also known as 'add' :-)
-    axios
-      .post('http://localhost:3001/persons', newPerson)
-      .then(
-        (response) => {
-          const person = response.data
-          const personsList = [...persons];
-          personsList.push(person);
-          setPersons(personsList);
-          return true;
-        })
-      .catch((error) => {
-        console.debug('[Error]doPost#', error);
-        return false;
-      })
+    services.getAll()
+      .then((peopleList) => { setPeople(peopleList) })
+      .catch((error) => { console.debug('[Error]doGet: ', error) })
   }
 
   useEffect(doGet, []);
@@ -54,7 +28,7 @@ const App = () => {
   }
 
   function addPerson() {
-    const person_exists = persons.some(list_person => list_person.name === newName)
+    const person_exists = people.some(list_person => list_person.name === newName)
     if (person_exists) {
       alert(`${newName} is already added to phonebook`);
       return false
@@ -66,13 +40,22 @@ const App = () => {
       return false;
     }
 
-    const temp_person = { name: newName, number: newNumber } //removi id
-    // console.debug(temp_person) //DEBUG
-    doPost(temp_person)
-    // .then( (person) => {     })
-    // .catch((error)=>{ console.debug('[Error]doPost#',error); return false;})
+    const temp_person = { name: newName, number: newNumber } //sem ID
+    services.create(temp_person)
+      .then(
+        (person) => {
+          const pplList = [...people];
+          pplList.push(person);
+          setPeople(pplList);
+          return true;
+        })
+      .catch((error) => {
+        console.debug('[Error]doPost#', error);
+        return false;
+      })
     return true;
   }
+
 
   function clean() {
     document.getElementById('input#name').value = '';
@@ -95,7 +78,7 @@ const App = () => {
         <h2>Add a new</h2>
         <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
         <h2>Numbers</h2>
-        <Persons persons={persons} filter={filterValue} />
+        <Persons persons={people} filter={filterValue} />
       </div>
       <Debug newName={newName} newNumber={newNumber} filterValue={filterValue} />
 
