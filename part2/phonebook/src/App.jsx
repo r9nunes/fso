@@ -70,15 +70,37 @@ const App = () => {
       clean();
   }
 
+  function removePerson(id){
+    services
+      .remove(id)
+      .then((success)=> {
+        if(success){
+          console.log("removido: ", id)
+          const new_list = people.filter((p) => p.id != id)
+          setPeople(new_list)
+        }else{
+          console.log('erro?')
+        }
+      })
+      .catch((erro) => console.log(erro))
+    
+  }
+
+  function handleRemove(id){
+    const answer = confirm(`Tem certeza q deseja remover ${id}?`)
+    if (answer)
+      removePerson(id)
+  }
+
   return (
     <>
       <div>
         <h2>Phonebook</h2>
         <Filter handleFilter={handleFilter} />
         <h2>Add a new</h2>
-        <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
+        <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}  />
         <h2>Numbers</h2>
-        <Persons persons={people} filter={filterValue} />
+        <Persons persons={people} filter={filterValue} handleRemove={handleRemove} />
       </div>
       <Debug newName={newName} newNumber={newNumber} filterValue={filterValue} />
 

@@ -12,7 +12,14 @@ function create(newPerson) { //also known as 'add' :-)
 }
 
 function update() { }
-function remove() { }
+function remove(id) {
+    const request = axios.delete(`http://localhost:3001/persons/${id}`);
+    return request.then((response) => {
+        console.log(response)
+        console.log(response.status)
+        return (response.status === 200 || response.status === 204);
+    })
+}
 function doPatch() { }
 
 export default { getAll, create, update, doPatch, remove };

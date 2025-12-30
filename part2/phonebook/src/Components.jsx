@@ -21,18 +21,18 @@ export function Debug({ newName, newNumber, filterValue }) {
 const espaco = (n) => " ".repeat(60-n);
 const length = (person) => person.name.length + person.number.length + person.id.length;
 
-export function Person({ person }) {
+export function Person({ person , handleRemove}) {
   return (
-    <div style={{ whiteSpace: "pre" }}> {person.name} - {person.number} {espaco(length(person))} (id:{person.id}) </div>)
+    <div style={{ whiteSpace: "pre" }}> {person.name} - {person.number} {espaco(length(person))} (id:{person.id}) <button onClick={() => handleRemove(person.id)}>Remover</button></div>)
 }
 
-export function Persons({ persons, filter }) {
+export function Persons({ persons, filter, handleRemove }) {
   let person_list = [...persons]
   // console.debug("Person list: ",person_list) //DEBUG
   if (filter != undefined) {
     person_list = person_list.filter((person) => person.name.includes(filter))
   }
-  return (<>{person_list.map((person) => <Person key={person.id} person={person} />)} </>)
+  return (<>{person_list.map((person) => <Person key={person.id} person={person} handleRemove={handleRemove} />)} </>)
 
 }
 
