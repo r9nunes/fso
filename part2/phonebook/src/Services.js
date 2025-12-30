@@ -11,14 +11,14 @@ function create(newPerson) { //also known as 'add' :-)
     return request.then((response) => { return response.data })
 }
 
-function update() { }
+function update(person) {
+    const request = axios.put(`http://localhost:3001/persons/${person.id}`, person)
+    return request.then((response) => response.data)
+}
 function remove(id) {
     const request = axios.delete(`http://localhost:3001/persons/${id}`);
-    return request.then((response) => {
-        console.log(response)
-        console.log(response.status)
-        return (response.status === 200 || response.status === 204);
-    })
+    return request.then((response) => (response.status === 200 || response.status === 204)
+    )
 }
 function doPatch() { }
 

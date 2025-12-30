@@ -28,34 +28,45 @@ const App = () => {
   }
 
   function addPerson() {
-    const person_exists = people.some(list_person => list_person.name === newName)
-    if (person_exists) {
-      alert(`${newName} is already added to phonebook`);
-      return false
-    }
-    if (newName.trim().length === 0) {
-      return false;
-    }
-    if (newNumber.trim().length === 0) {
-      return false;
-    }
-
-    const temp_person = { name: newName, number: newNumber } //sem ID
-    services.create(temp_person)
+    const new_person = { name: newName, number: newNumber } //sem ID
+    services.create(new_person)
       .then(
         (person) => {
           const pplList = [...people];
           pplList.push(person);
           setPeople(pplList);
-          return true;
         })
-      .catch((error) => {
-        console.debug('[Error]doPost#', error);
-        return false;
-      })
-    return true;
   }
 
+  function updatePerson() {
+    const person = { ...people.find((p) => p.name === newName), number: newNumber } //com ID
+    services.update(person)
+      .then(
+        (person) => {
+          const pplList = [...people].filter((p) => p.id !== person.id);
+          pplList.push(person);
+          setPeople(pplList);
+        })
+
+  }
+
+  function addOrUpdatePerson() {
+    if (!newName || newName.trim().length === 0) {
+      alert(`Name can't be empty`);
+      return false;
+    }
+    if (!newNumber || newNumber.trim().length === 0) {
+      alert(`Number can't be empty`);
+      return false;
+    }
+    const person_exists = people.some(list_person => list_person.name === newName)
+
+    if (person_exists) {
+      updatePerson()
+    } else {
+      addPerson()
+    }
+  }
 
   function clean() {
     document.getElementById('input#name').value = '';
@@ -66,27 +77,27 @@ const App = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (addPerson())
+    if (addOrUpdatePerson())
       clean();
   }
 
-  function removePerson(id){
+  function removePerson(id) {
     services
       .remove(id)
-      .then((success)=> {
-        if(success){
+      .then((success) => {
+        if (success) {
           console.log("removido: ", id)
           const new_list = people.filter((p) => p.id != id)
           setPeople(new_list)
-        }else{
+        } else {
           console.log('erro?')
         }
       })
       .catch((erro) => console.log(erro))
-    
+
   }
 
-  function handleRemove(id){
+  function handleRemove(id) {
     const answer = confirm(`Tem certeza q deseja remover ${id}?`)
     if (answer)
       removePerson(id)
@@ -98,7 +109,7 @@ const App = () => {
         <h2>Phonebook</h2>
         <Filter handleFilter={handleFilter} />
         <h2>Add a new</h2>
-        <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}  />
+        <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
         <h2>Numbers</h2>
         <Persons persons={people} filter={filterValue} handleRemove={handleRemove} />
       </div>
