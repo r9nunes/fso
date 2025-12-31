@@ -1,0 +1,45 @@
+.insert {
+    color: green;
+    border: 1px green solid;
+    margin: 2ch 2ch 2ch 2ch;
+    font-size: medium;
+    width: 70ch;
+    text-align: center;
+    background-color: lightcyan
+}
+
+.empty {
+    color: black;
+    border: 0px white solid;
+    margin: 2ch 2ch 2ch 2ch;
+    width: 70ch;
+    text-align: center;
+    background-color: lightcyan
+}
+
+.remove {
+    color: red;
+    border: 1px red solid;
+    margin: 2ch 2ch 2ch 2ch;
+    width: 70ch;
+    text-align: center;
+    background-color: lightcyan
+}
+
+.update {
+    color: blue;
+    border: 1px blue solid;
+    margin: 2ch 2ch 2ch 2ch;
+    width: 70ch;
+    text-align: center;
+    background-color: lightcyan
+}
+
+.error {
+    color: red;
+    border: 1px red solid;
+    margin: 2ch 2ch 2ch 2ch;
+    width: 70ch;
+    text-align: center;
+    background-color: lightpink;
+}
