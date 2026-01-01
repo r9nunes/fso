@@ -1,0 +1,26 @@
+.weather {
+    display: flex;
+    align-itens: center;
+    gap: 12px;
+}
+
+.weather-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.country {
+    display: flex;
+    align-itens: center;
+    gap: 12px;
+}
+
+.country-info {
+    display: flex;
+    flex-direction: column;
+}
